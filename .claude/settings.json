@@ -1,0 +1,68 @@
+{
+  "permissions": {
+    "deny": [
+      "Write(.claude/settings.local.json)",
+      "Edit(.claude/settings.local.json)"
+    ],
+    "allow": [
+      "Read",
+      "Bash(curl -s http://127.0.0.1:8000*)",
+      "Bash(python3 /root/xClaude/scripts/notebooklm_manager.py make-infographic)",
+      "Bash(git -C /root/xClaude push)",
+      "Bash(git -C /root/xClaude add *)",
+      "Bash(git -C /root/xClaude commit *)",
+      "Bash(git -C /root/xClaude status)",
+      "Bash(python3 $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/notebooklm_manager.py make-infographic *)",
+      "Bash(bash $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/sync_to_drive.sh)",
+      "Bash(bash $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/drive_put.sh *)",
+      "Bash(bash $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/drive_get.sh *)",
+      "Bash(bash $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/post_from_email.sh *)",
+      "Bash(bash $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/send_gmail.sh *)",
+      "Bash(*commit_and_sync.sh *)",
+      "Bash(gws gmail users threads modify *)",
+      "Write",
+      "Edit",
+      "Bash(mkdir -p *)",
+      "Bash(cp -r *)",
+      "Bash(npm *)",
+      "Bash(grep *)",
+      "Bash(gws sheets spreadsheets values get *)",
+      "Bash(git -C /root/xClaude diff *)",
+      "Bash(gh run list *)",
+      "Bash(git -C /root/xClaude log *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(bash /root/xClaude/scripts/commit_and_sync.sh *)",
+      "mcp__mcp-gsheets__sheets_get_values",
+      "mcp__mcp-gsheets__sheets_append_values",
+      "mcp__mcp-gsheets__sheets_update_values",
+      "mcp__claude_ai_Gmail__search_threads",
+      "mcp__claude_ai_Gmail__get_thread",
+      "mcp__claude_ai_Gmail__create_draft",
+      "mcp__claude_ai_Gmail__create_label",
+      "mcp__claude_ai_Gmail__list_labels",
+      "mcp__claude_ai_Gmail__label_thread",
+      "mcp__claude_ai_Gmail__unlabel_thread"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash(git -C /root/xClaude commit *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /root/xClaude/scripts/update_wiki_skills.py || true"
+          }
+        ]
+      }
+    ]
+  },
+  "mcpServers": {
+    "xmcp": {
+      "type": "http",
+      "url": "http://127.0.0.1:8000/mcp"
+    }
+  }
+}
