@@ -19,7 +19,13 @@ export default defineConfig({
             { label: '運用ルール', link: '/rules/' },
             { label: '計画', link: '/plan/' },
             { label: 'ブランドガイド', link: '/brand/' },
+            { label: '変更ログ', link: '/changelog/' },
           ],
+        },
+        {
+          label: '報告書',
+          collapsed: true,
+          autogenerate: { directory: 'reports', collapsed: true },
         },
       ],
     }),

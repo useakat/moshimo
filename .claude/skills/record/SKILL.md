@@ -11,20 +11,20 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 
 # STEP 1: 記録済み変更の把握
 
-Read ツールで `/root/xClaude/docs/changelog.md` を読み込み、変更ログに記載されている **太字タイトル**（`**タイトル**` 形式）を全て記憶する。
+Read ツールで `/root/moshimo/docs/changelog.md` を読み込み、変更ログに記載されている **太字タイトル**（`**タイトル**` 形式）を全て記憶する。
 
 ---
 
 # STEP 2: 直近の git コミット履歴を取得
 
 ```bash
-git -C /root/xClaude log --oneline -30
+git -C /root/moshimo log --oneline -30
 ```
 
 さらに、各コミットで変更されたファイルの一覧を確認する：
 
 ```bash
-git -C /root/xClaude log --name-only --pretty=format:"COMMIT: %h %s" -20 \
+git -C /root/moshimo log --name-only --pretty=format:"COMMIT: %h %s" -20 \
   | grep -v "^$" | head -80
 ```
 
@@ -36,7 +36,7 @@ STEP 1 で把握した記録済みタイトルと STEP 2 のコミット履歴�
 
 ## フィルタリングルール（候補から除外するもの）
 
-以下は記録不要のため候補に含めない：
+以下は記録不要のため候補に含めない（moshimo では、日報・週報・月報や X 投稿は対象外）：
 - `settings.json` の `permissions.allow` への追記のみのコミット
 - 日報・週報・月報の追加（`report(daily/weekly/monthly):`）
 - X 投稿原稿・インフォグラフィック等のコンテンツファイルのみの変更
@@ -87,7 +87,7 @@ print(today)
 
 ## 報告書テンプレート
 
-`docs/reports/template.md` を読み込み、以下の項目を埋めて保存する：
+`docs/reports/template.md` を読み込み（コードブロック内の雛形を使う）、以下の項目を埋めて保存する：
 
 ```markdown
 ---
@@ -96,7 +96,7 @@ date: YYYY-MM-DD
 tags: [該当するタグ: skill / workflow / style / bugfix / wiki / infra]
 ---
 
-← [変更ログへ](../changelog/)
+← [変更ログへ](../../changelog/)
 
 ## 背景・動機
 
@@ -121,35 +121,9 @@ tags: [該当するタグ: skill / workflow / style / bugfix / wiki / infra]
 
 ---
 
-# STEP 4.5: セッション履歴の保存と相互リンク
+# STEP 4.5: セッション履歴（moshimo では未移植のためスキップ）
 
-## 4.5-1. セッション JSONL → Markdown 変換
-
-```bash
-python3 /root/xClaude/scripts/save_session_history.py \
-  --title "<報告書タイトルと同じ>" \
-  --slug "<報告書ファイル名スネークケースと同じ>"
-# 最終行に保存先パスが出力される
-```
-
-## 4.5-2. 関係ない部分を削除
-
-生成されたファイルを Read し、今回の報告書に**直接関係しない**やり取り（別トピックの作業・事前確認・無関係な修正など）を削除する。  
-会話の文言・順序は変えない。削除のみ行う。
-
-## 4.5-3. 相互リンクの追記
-
-**履歴ファイルの冒頭**（`# セッション履歴` の下の `>` 説明行の直後）に追記：
-
-```markdown
-← [報告書へ戻る](../reports/YYYYMMDD_<スラグ>/)
-```
-
-**報告書のヘッダーリンク行**を更新：
-
-```markdown
-← [変更ログへ](../changelog/) ｜ [セッション履歴→](../history/YYYYMMDD_<スラグ>_session/)
-```
+セッション履歴の保存と相互リンクは行わない。報告書のヘッダーリンク行は `← [変更ログへ](../../changelog/)` のみとする。
 
 ---
 
@@ -160,7 +134,7 @@ python3 /root/xClaude/scripts/save_session_history.py \
 ## エントリ形式
 
 ```markdown
-- **[変更タイトル]** — [概要1行]。[→報告書](../reports/YYYYMMDD_[ファイル名]/)
+- **[変更タイトル]** — [概要1行]。[→報告書](./reports/YYYYMMDD_[ファイル名]/)
 ```
 
 ## リンク形式ルール
@@ -168,8 +142,8 @@ python3 /root/xClaude/scripts/save_session_history.py \
 **Wiki（Starlight）では `.md` 拡張子付きリンクが 404 になる。** 報告書・履歴・変更ログへのリンクはすべて末尾を `/` で終わらせる（`.md` は付けない）。
 
 例:
-- ✅ `[変更ログへ](../changelog/)`
-- ✅ `[報告書](../reports/20260521_foo/)`
+- ✅ `[変更ログへ](../../changelog/)`（報告書から）
+- ✅ `[報告書](./reports/20260521_foo/)`（変更ログから）
 - ❌ `[変更ログへ](../changelog.md)`
 
 ## 追記ルール
@@ -180,26 +154,16 @@ python3 /root/xClaude/scripts/save_session_history.py \
 
 ---
 
-# STEP 6: Git コミット & GitHub MCP プッシュ
-
-**6-1. ローカルコミット**
+# STEP 6: Git コミット & プッシュ
 
 ```bash
-bash $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/commit_and_sync.sh \
-  "docs: [変更タイトル]の報告書・変更ログを追加"
+git -C /root/moshimo add docs/
+git -C /root/moshimo commit -m "docs: [変更タイトル]の報告書・変更ログを追加"
+git -C /root/moshimo push origin main
 ```
 
-複数件まとめてコミットする場合は、タイトルを列挙する。
-
-**6-2. GitHub MCP で master にプッシュ**
-
-`git diff HEAD~1 --name-only` で変更ファイル一覧を取得し、各ファイルを Read ツールで読み込む。その後 `mcp__github__push_files` ツールで master に直接プッシュする：
-
-- owner: `useakat`
-- repo: `xClaude`
-- branch: `master`
-- files: 変更ファイルの path と content のリスト
-- message: コミットメッセージと同じ内容
+複数件まとめてコミットする場合は、タイトルを列挙する。コミットメッセージの末尾には、システムの指示にある attribution 行を付ける。
+push 後、GitHub Actions のデプロイ（Wiki 更新）が成功したか `gh run list --limit 1` で確認する。
 
 ---
 
