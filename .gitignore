@@ -25,3 +25,8 @@ logs/*
 *.orig
 .env.*
 !.env.example
+
+# Wiki 生成物
+starlight/src/content/docs/
+starlight/dist/
+starlight/.astro/

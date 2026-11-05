@@ -2,9 +2,13 @@ name: Deploy Wiki to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'docs/**'
+      - 'CLAUDE.md'
+      - 'plan.md'
+      - 'brand.md'
+      - 'scripts/build_wiki_content.sh'
       - 'starlight/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
@@ -33,8 +37,8 @@ jobs:
       - name: Install dependencies
         run: cd starlight && npm ci
 
-      - name: Copy docs to Starlight content directory
-        run: mkdir -p starlight/src/content/docs && cp -r docs/* starlight/src/content/docs/
+      - name: Generate Wiki content
+        run: bash scripts/build_wiki_content.sh
 
       - name: Build Starlight
         run: cd starlight && npm run build
