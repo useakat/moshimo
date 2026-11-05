@@ -10,3 +10,4 @@ description: プロジェクトの変更・実装の記録
 - **プロジェクト初期構築** — `CLAUDE.md` / `plan.md` / `brand.md` を作成し、読者・分野・出典方針を確定。[→報告書](./reports/20261105_project_setup/)
 - **NotebookLM によるリサーチ・ファクトチェック基盤の移植** — xClaude から移植し、SSH 接続先を `.env` 化、秘密情報の混入を確認。[→報告書](./reports/20261105_notebooklm_factcheck_migration/)
 - **Wiki の整備と GitHub Pages での公開** — Starlight を整備して Pages で公開し、変更ログ・報告書・セッション履歴の記録手順を整備。[→報告書](./reports/20261105_wiki_pages_setup/)
+- **xClaude 由来の残存物の整理** — 不要なエージェント・スキル・設定を削除し、許可設定を最小化。[→報告書](./reports/20261105_xclaude_residue_cleanup/)
