@@ -11,7 +11,7 @@ tools: Read, Edit, Bash
 
 # STEP 1: 現在の permissions.allow を把握
 
-Read ツールで `/root/xClaude/.claude/settings.json` を読み込み、`permissions.allow` に登録済みのパターンを全て記憶する。
+Read ツールで `/root/moshimo/.claude/settings.json` を読み込み、`permissions.allow` に登録済みのパターンを全て記憶する。
 
 ---
 
@@ -48,24 +48,15 @@ Read ツールで `/root/xClaude/.claude/settings.json` を読み込み、`permi
 
 ---
 
-# STEP 4: Git コミット & GitHub MCP プッシュ
-
-**4-1. ローカルコミット**
+# STEP 4: Git コミット & プッシュ
 
 ```bash
-bash $(git -C /root/xClaude rev-parse --show-toplevel)/scripts/commit_and_sync.sh \
-  "chore(settings): [追記したパターンの概要] を permissions.allow に追加"
+git -C /root/moshimo add .claude/settings.json
+git -C /root/moshimo commit -m "chore(settings): [追記したパターンの概要] を permissions.allow に追加"
+git -C /root/moshimo push origin main
 ```
 
-**4-2. GitHub MCP で master にプッシュ**
-
-`git diff HEAD~1 --name-only` で変更ファイル一覧を取得し、各ファイルを Read ツールで読み込む。その後 `mcp__github__push_files` ツールで master に直接プッシュする：
-
-- owner: `useakat`
-- repo: `xClaude`
-- branch: `master`
-- files: 変更ファイルの path と content のリスト
-- message: `chore(settings): [追記したパターンの概要] を permissions.allow に追加`
+コミットメッセージの末尾には、システムの指示にある attribution 行を付ける。
 
 ---
 

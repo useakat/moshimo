@@ -11,9 +11,6 @@ logs/*
 !logs/.gitkeep
 .DS_Store
 
-# xClaude 由来（スプレッドシートID等を含むため公開しない。整理方針が決まるまで追跡対象外）
-.claude/agents/
-.claude/skills/reporter-*/
 
 # エディタの一時ファイル・バックアップ
 *.swp

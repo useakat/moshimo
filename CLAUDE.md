@@ -23,7 +23,6 @@ moshimo/
 ├── starlight/     # ドキュメントサイト（Astro Starlight）
 └── logs/          # 実行ログ
 ```
-※ `.claude/` 配下のスキル・エージェント、`starlight/`、`.github/` の一部は別プロジェクト（xClaude）由来の残存物。流用か整理かは別途判断する。
 
 ## 命名規則
 - 記事原稿：`outputs/articles/<連番3桁>-<テーマ>/draft.md`（例：`001-moon-disappears/draft.md`）
