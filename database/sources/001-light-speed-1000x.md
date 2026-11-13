@@ -45,7 +45,7 @@
 |---|---|---|---|
 | 20 | Pyykkö (2012) "Relativistic effects in chemistry: more common than you thought", Annu. Rev. Phys. Chem. 63, 45 | 査読付きレビュー | `…PubMed`、`annualreviews.org/doi/pdf/10.1146/annurev-physchem-032511-143755` |
 
-### 相対論的化学・日常の相対論（方針 3 用。2026-11-06 に手動追加）
+### 相対論的化学・日常の相対論（導入用。旧方針 3。2026-11-06 に手動追加）
 | # | 文献 | 種別 | ノートブック内のソース名 |
 |---|---|---|---|
 | 21 | Ahuja, Blomqvist, Larsson, Pyykkö, Zaleski-Ejgierd (2011) "Relativity and the lead-acid battery", PRL 106, 018301, arXiv:1008.4872 | 査読付き | `arxiv.org/pdf/1008.4872` |
